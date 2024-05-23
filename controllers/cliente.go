@@ -19,6 +19,7 @@ type PedidoCliente struct {
 	Total             float64
 }
 
+// esta es la clase que se encarga de controlar los clientes por asi decirlo
 func NewClienteController(DB *gorm.DB) *ClienteController {
 	return &ClienteController{DB}
 }
@@ -28,6 +29,12 @@ func (cc *ClienteController) CreateCliente(c echo.Context) error {
 	var cliente models.Cliente
 	if err := c.Bind(&cliente); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	// Verificar si el correo electrónico ya está registrado
+	var existingCliente models.Cliente
+	if err := cc.DB.Where("Correo_Electronico = ?", cliente.CorreoElectronico).First(&existingCliente).Error; err != gorm.ErrRecordNotFound {
+		return echo.NewHTTPError(http.StatusConflict, "El correo electrónico ya está registrado")
 	}
 
 	result := cc.DB.Create(&cliente)
@@ -53,7 +60,6 @@ func (cc *ClienteController) GetClientes(c echo.Context) error {
 
 func (pc *ClienteController) GetPedidosWithClienteInfo(c echo.Context) error {
 	var resultados []PedidoCliente
-
 	// Ejecutar la consulta SQL
 	pc.DB.Raw(`
 		SELECT c.Nombre, c.Correo_Electronico, p.Fecha_Pedido, p.Total

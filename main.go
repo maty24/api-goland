@@ -22,7 +22,9 @@ func main() {
 	e := echo.New()
 
 	// Definir las rutas
-	routes.InitRoutes(e, db)
+	routes.ClienteRoutes(e, db)
+	routes.PedidoRoutes(e, db)
+	routes.AuthRoutes(e)
 
 	// Iniciar el servidor en el puerto 8080
 	e.Logger.Fatal(e.Start(":8080"))

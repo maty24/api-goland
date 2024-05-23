@@ -32,6 +32,7 @@ func (ac *AuthController) GenerateToken(c echo.Context) error {
 	return c.JSON(http.StatusOK, echo.Map{"token": tokenString})
 }
 
+// funcion que valida el token
 func (ac *AuthController) ValidateToken(c echo.Context) error {
 	// Obtener el token de la cabecera Authorization
 	authHeader := c.Request().Header.Get("Authorization")
@@ -40,9 +41,8 @@ func (ac *AuthController) ValidateToken(c echo.Context) error {
 	// Parsear y validar el token
 	err := ac.validateJWTToken(tokenString)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusUnauthorized, "Token inválido o expirado")
+		return echo.NewHTTPError(http.StatusUnauthorized, "EHH Maquinola quien chota sos?, token inválido")
 	}
-
 	return nil // Token válido
 }
 
