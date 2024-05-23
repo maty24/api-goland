@@ -1,0 +1,26 @@
+# Archivos y directorios generados
+bin/
+pkg/
+backend-app
+
+# Archivos de configuración local
+.env
+
+# Archivos de caché y temporales
+*.out
+*.test
+
+# Archivos de Git
+.git
+.gitignore
+
+# Archivos de editores y IDEs
+.vscode/
+*.swp
+
+# Archivos específicos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Ignorar la carpeta postgres
+postgres/

@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:16.2
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: goland
+      POSTGRES_USER: postgres
+    container_name: goland-proyect
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  backend:  # O como hayas llamado al servicio de tu app Go
+    build: .
+    ports:
+      - "8080:8080"  # Mapeo de puertos
+    depends_on:
+      - db
